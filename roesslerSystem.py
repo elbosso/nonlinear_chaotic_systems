@@ -1,5 +1,4 @@
 from ipywidgets import interact, interactive, HBox, Layout,VBox
-
 import numpy as np
 from scipy import integrate
 
@@ -8,7 +7,7 @@ from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.colors import cnames
 from matplotlib import animation
 
-def solve_lorenz(numberOfTrajectories=10, anglex=0.0, angley=30.0, max_time=4.0, sigma=10.0, beta=8./3, rho=28.0):
+def solve_roessler(numberOfTrajectories=10, anglex=0.0, angley=30.0, max_time=4.0, a=0.2, b=0.2, c=5.7):
 
     fig = plt.figure(figsize=(8, 6), dpi=80)
     ax = fig.add_axes([0, 0, 1, 1], projection='3d')
@@ -19,10 +18,10 @@ def solve_lorenz(numberOfTrajectories=10, anglex=0.0, angley=30.0, max_time=4.0,
     ax.set_ylim((-30, 30))
     ax.set_zlim((5, 55))
     
-    def lorenz_deriv(x_y_z, t0, sigma=sigma, beta=beta, rho=rho):
-        """Compute the time-derivative of a Lorenz system."""
+    def roessler_deriv(x_y_z, t0, a=a, b=b, c=c):
+        """Compute the time-derivative of a Roessler system."""
         x, y, z = x_y_z
-        return [sigma * (y - x), x * (rho - z) - y, x * y - beta * z]
+        return [-y-z,x+a*y,b+z*(x-c)]
 
     # Choose random starting points, uniformly distributed from -15 to 15
     np.random.seed(1)
@@ -30,7 +29,7 @@ def solve_lorenz(numberOfTrajectories=10, anglex=0.0, angley=30.0, max_time=4.0,
 
     # Solve for the trajectories
     t = np.linspace(0, max_time, int(250*max_time))
-    x_t = np.asarray([integrate.odeint(lorenz_deriv, x0i, t)
+    x_t = np.asarray([integrate.odeint(roessler_deriv, x0i, t)
                       for x0i in x0])
     
     # choose a different color for each trajectory
