@@ -8,7 +8,7 @@ from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.colors import cnames
 from matplotlib import animation
 
-def solve_chua(numberOfTrajectories=10, min_x0=-15, max_x0=15, anglex=0.0, angley=30.0, max_time=14.0, alpha=15.6, beta=1, gamma=28,m0=-1.143, m1=-0.714):
+def solve_chua(numberOfTrajectories=10, min_x0=0.0, max_x0=0.5, anglex=0.0, angley=30.0, max_time=14.0, alpha=15.6, beta=1, gamma=28,m0=-1.143, m1=-0.714):
 
     fig = plt.figure(figsize=(8, 6), dpi=80)
     ax = fig.add_axes([0, 0, 1, 1], projection='3d')
