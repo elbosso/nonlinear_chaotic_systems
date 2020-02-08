@@ -8,7 +8,7 @@ from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.colors import cnames
 from matplotlib import animation
 
-def solve_lorenz(numberOfTrajectories=10, anglex=0.0, angley=30.0, max_time=4.0, sigma=10.0, beta=8./3, rho=28.0):
+def solve_lorenz(numberOfTrajectories=10, min_x0=-15, max_x0=15, anglex=0.0, angley=30.0, max_time=4.0, sigma=10.0, beta=8./3, rho=28.0):
 
     fig = plt.figure(figsize=(8, 6), dpi=80)
     ax = fig.add_axes([0, 0, 1, 1], projection='3d')
@@ -24,9 +24,10 @@ def solve_lorenz(numberOfTrajectories=10, anglex=0.0, angley=30.0, max_time=4.0,
         x, y, z = x_y_z
         return [sigma * (y - x), x * (rho - z) - y, x * y - beta * z]
 
-    # Choose random starting points, uniformly distributed from -15 to 15
+    # Choose random starting points, uniformly distributed from min_x0 to max_x0
     np.random.seed(1)
-    x0 = -15 + 30 * np.random.random((numberOfTrajectories, 3))
+    span=max_x0-min_x0
+    x0 = min_x0 + span * np.random.random((numberOfTrajectories, 3))
 
     # Solve for the trajectories
     t = np.linspace(0, max_time, int(250*max_time))

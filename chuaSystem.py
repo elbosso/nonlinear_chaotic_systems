@@ -8,7 +8,7 @@ from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.colors import cnames
 from matplotlib import animation
 
-def solve_chua(numberOfTrajectories=10, anglex=0.0, angley=30.0, max_time=14.0, alpha=15.6, beta=1, gamma=28,m0=-1.143, m1=-0.714):
+def solve_chua(numberOfTrajectories=10, min_x0=-15, max_x0=15, anglex=0.0, angley=30.0, max_time=14.0, alpha=15.6, beta=1, gamma=28,m0=-1.143, m1=-0.714):
 
     fig = plt.figure(figsize=(8, 6), dpi=80)
     ax = fig.add_axes([0, 0, 1, 1], projection='3d')
@@ -34,9 +34,10 @@ def solve_chua(numberOfTrajectories=10, anglex=0.0, angley=30.0, max_time=14.0, 
         x, y, z = x_y_z
         return [alpha * (y - x -g(x,m0,m1)), beta*(x - y + z), -gamma * y]
 
-    # Choose random starting points, uniformly distributed from -15 to 15
+    # Choose random starting points, uniformly distributed from min_x0 to max_x0
     np.random.seed(1)
-    x0 = -15 + 30 * np.random.random((numberOfTrajectories, 3))
+    span=max_x0-min_x0
+    x0 = min_x0 + span * np.random.random((numberOfTrajectories, 3))
 
     # Solve for the trajectories
     t = np.linspace(0, max_time, int(250*max_time))
