@@ -36,11 +36,27 @@ def solve_lorenz(numberOfTrajectories=10, anglex=0.0, angley=30.0, max_time=4.0,
     # choose a different color for each trajectory
     colors = plt.cm.viridis(np.linspace(0, 1, numberOfTrajectories))
 
+    mins={"x":[],"y":[],"z":[]}
+    maxs={"x":[],"y":[],"z":[]}
+    for i in range(len(x_t)):
+        x, y, z = x_t[i,:,:].T
+        mins["x"]+=[min(x)]
+        maxs["x"]+=[max(x)]
+        mins["y"]+=[min(y)]
+        maxs["y"]+=[max(y)]
+        mins["z"]+=[min(z)]
+        maxs["z"]+=[max(z)]
+    # prepare the axes limits
+    ax.set_xlim((min(mins["x"]),max(maxs["x"])))
+    ax.set_ylim((min(mins["y"]),max(maxs["y"])))
+    ax.set_zlim((min(mins["z"]),max(maxs["z"])))
+
     for i in range(numberOfTrajectories):
         x, y, z = x_t[i,:,:].T
         lines = ax.plot(x, y, z, '-', c=colors[i])
         plt.setp(lines, linewidth=1)
-
+    
+    
     ax.view_init(angley, anglex)
     plt.show()
 
